@@ -40,6 +40,17 @@ public class Prestamo implements Serializable {
 		// La fecha de devolución está vacía porque aún no se ha devuelto el libro
 		this.fechaDevolucion = "";
 	}
+	
+	// Otro constructor más, en éste se puede especificar todo, será útil para importar y
+	// exportar el XML
+	public Prestamo(int idPrestamo, int idLibro, String usuario, String fechaPrestamo, String fechaDevolucion) {
+		this.idPrestamo = idPrestamo;
+		this.idLibro = idLibro;
+		this.usuario = usuario;
+		this.fechaPrestamo = fechaPrestamo;
+		// La fecha de devolución está vacía porque aún no se ha devuelto el libro
+		this.fechaDevolucion = fechaDevolucion;
+	}
 
 	// Getters
 	public int getIdPrestamo() {
