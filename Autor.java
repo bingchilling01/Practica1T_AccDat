@@ -1,6 +1,7 @@
 package ejercicio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 //Se implementa la interfaz Serializable para poder leer y escribir en ficheros binarios
 public class Autor implements Serializable {
@@ -50,14 +51,27 @@ public class Autor implements Serializable {
 		this.anioNacimiento = anioNacimiento;
 	}
 
-	// Método que devuelve un String que sirve para imprimir los detalles del libro
-	public String imprimirAutor() {
+	// Método que devuelve un String que sirve para imprimir los detalles del autor
+	public String detallesAutor() {
 		return "--------------------------------------------------------------------" + 
 			   "Autor con ID: " + this.id + "\n" + 
 			   "Nombre: " + this.nombre + "\n" + 
 			   "Nacionalidad: " + this.nacionalidad + "\n" + 
 			   "Año nacimiento: " + this.anioNacimiento + "\n" + 
 			   "--------------------------------------------------------------------\n";
+	}
+	
+	public static void imprimirAutores(ArrayList<Autor> listaAutores) {
+		// Obtenemos la lista de autores llamando a la función de lectura
+		listaAutores = GestorFicherosBinarios.leerFicheroAutores();
+		// Si el ArrayList NO está vacío se imprime por pantalla todos los autores
+		if (!listaAutores.isEmpty()) {
+			for (Autor autor : listaAutores) {
+				ES.msgln(autor.detallesAutor());
+			}
+		} else {
+			ES.msgErrln("No hay autores");
+		}
 	}
 
 }

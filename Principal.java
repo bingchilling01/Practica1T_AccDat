@@ -66,17 +66,19 @@ public class Principal {
 			int opcionLibros = ES.leeEntero("Seleccione una opción: ");
 			switch (opcionLibros) {
 			case 1:
-				
+				Libro.nuevoLibro();
 				break;
 				
 			case 2: 
-				
+				Libro.imprimirLibros();
 				break;
 				
 			case 3:
+				Libro.modificarLibro();
 				break;
 				
 			case 4:
+				Libro.eliminarLibro();
 				break;
 				
 			case 5:
@@ -129,7 +131,7 @@ public class Principal {
 			int opcionPrestamos = ES.leeEntero("Seleccione una opción: ");
 			switch (opcionPrestamos) {
 			case 1:
-				
+				Prestamo.nuevoPrestamo();
 				break;
 				
 			case 2: 

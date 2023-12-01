@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public final class GestorFicherosXML {
 
 	// Ruta donde se va a guardar los ficheros XML para la importación/exportación
-	private static final String rutaXML = GestorFicherosBinarios.rutaAbsoluta + "/ficheros_xml/";
+	private static final String rutaXML = GestorFicherosBinarios.rutaCarpetaRaiz + "/ficheros_xml/";
 
 	private static void msgNoExiste(String tipo) {
 		ES.msgErrln("El fichero XML de los " + tipo + " NO existe.");
