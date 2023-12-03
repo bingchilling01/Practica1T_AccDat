@@ -3,10 +3,12 @@ package ejercicio;
 import java.io.File;
 import java.io.FileWriter;
 
-public class GestorFicherosTexto {
+public final class GestorFicherosTexto extends GestorFicheros{
 	
-	private static File archivoPrestamos = new File(GestorFicherosBinarios.rutaCarpetaRaiz + "prestamos.yaml");
+	// Ruta del archivo de texto de préstamos
+	private static File archivoPrestamos = new File(rutaCarpetaRaiz + "prestamos.yaml");
 	
+	// Método para escribir los datos de un préstamo en el fichero en formato YAML
 	public static void escribirFicheroPrestamos(Prestamo prestamo) {
 		
 		try {

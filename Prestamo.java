@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 // Se implementa la interfaz Serializable para poder leer y escribir en ficheros binarios
 public class Prestamo implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	// LocalDate sirve para coger la fecha de AHORA
 	private LocalDate hoy = LocalDate.now();

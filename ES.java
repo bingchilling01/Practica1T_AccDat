@@ -34,7 +34,7 @@ public class ES {
                 numero = teclado.nextInt();
                 leido = true;
             } catch (Exception e) {
-                ES.msgln("Error: No es un número entero válido. ");
+                ES.msgErrln("Error: No es un número entero válido. ");
             }
 
         } while (!leido);

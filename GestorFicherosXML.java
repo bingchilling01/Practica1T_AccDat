@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -15,10 +16,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public final class GestorFicherosXML {
-
-	// Ruta donde se va a guardar los ficheros XML para la importación/exportación
-	private static final String rutaXML = GestorFicherosBinarios.rutaCarpetaRaiz + "/ficheros_xml/";
+public final class GestorFicherosXML extends GestorFicheros {
 
 	private static void msgNoExiste(String tipo) {
 		ES.msgErrln("El fichero XML de los " + tipo + " NO existe.");
@@ -30,12 +28,14 @@ public final class GestorFicherosXML {
 
 	// Método para importar los LIBROS desde su fichero XML
 	public static ArrayList<Libro> importarXMLLibros() {
-
-		ArrayList<Libro> listaLibros = new ArrayList<>();
-
+		
+		// Primero, comprobamos que los directorios existen para evitar errores
+		GestorFicherosBinarios.comprobarDirectorios();
+		
+		ArrayList<Libro> listaLibros = new ArrayList<>(); // Declararemos un ArrayList
 		File ficheroXMLLibros = new File(xmlLibro);
-		if (ficheroXMLLibros.exists()) {
-
+		if (ficheroXMLLibros.exists()) { // Si el fichero existe, procederemos a la importación
+										 // de los datos
 			try {
 
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -51,8 +51,7 @@ public final class GestorFicherosXML {
 						int idLibro = Integer.parseInt(libro.getAttribute(etiquetasLibro[1]));
 						String tituloLibro = libro.getElementsByTagName(etiquetasLibro[2]).item(0).getTextContent();
 						String autorLibro = libro.getElementsByTagName(etiquetasLibro[3]).item(0).getTextContent();
-						int anioPub = Integer
-								.parseInt(libro.getElementsByTagName(etiquetasLibro[4]).item(0).getTextContent());
+						int anioPub = Integer.parseInt(libro.getElementsByTagName(etiquetasLibro[4]).item(0).getTextContent());
 						String generoLibro = libro.getElementsByTagName(etiquetasLibro[5]).item(0).getTextContent();
 						listaLibros.add(new Libro(idLibro, tituloLibro, autorLibro, anioPub, generoLibro));
 					}
@@ -61,12 +60,12 @@ public final class GestorFicherosXML {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-
+			// Una vez acabado el proceso devolveremos el ArrayList
 			return listaLibros;
 
 		} else {
 			msgNoExiste("libros");
-
+			// Si el archivo no existe devolveremos un valor NULO
 			return null;
 		}
 
@@ -74,17 +73,21 @@ public final class GestorFicherosXML {
 
 	// Método para exportar el fichero XML de LIBROS
 	public static void exportarXMLLibros(ArrayList<Libro> listaLibros) {
+		
+		GestorFicherosBinarios.comprobarDirectorios(); // Comprobamos que los directorios existen
 
 		try {
 
 			DocumentBuilderFactory factoryLibros = DocumentBuilderFactory.newInstance();
 			DocumentBuilder constructorXMLLibros = factoryLibros.newDocumentBuilder();
 			Document xmlLibros = constructorXMLLibros.newDocument();
+			Element libros = (Element) xmlLibros.createElement("libros");			
 
 			for (int i = 0; i < listaLibros.size(); i++) {
 				Element nuevoLibro = (Element) xmlLibros.createElement(etiquetasLibro[0]);
 				nuevoLibro.setAttribute(etiquetasLibro[1], String.valueOf(listaLibros.get(i).getId()));
-
+				
+				
 				Element tituloLibro = (Element) xmlLibros.createElement(etiquetasLibro[2]);
 				tituloLibro.appendChild(xmlLibros.createTextNode(listaLibros.get(i).getTitulo()));
 				nuevoLibro.appendChild(tituloLibro);
@@ -101,11 +104,15 @@ public final class GestorFicherosXML {
 				Element generoLibro = (Element) xmlLibros.createElement(etiquetasLibro[5]);
 				generoLibro.appendChild(xmlLibros.createTextNode(listaLibros.get(i).getGenero()));
 				nuevoLibro.appendChild(generoLibro);
+				
+				libros.appendChild(nuevoLibro);
 			}
+			
+			xmlLibros.appendChild(libros);
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			DOMSource source = new DOMSource(xmlLibros);
 			StreamResult result = new StreamResult(new File(xmlLibro));
@@ -122,7 +129,8 @@ public final class GestorFicherosXML {
 
 	// Método para importar los AUTORES desde su fichero XML
 	public static ArrayList<Autor> importarXMLAutores() {
-
+		
+		GestorFicherosBinarios.comprobarDirectorios();
 		ArrayList<Autor> listaAutores = new ArrayList<>();
 		File ficheroXMLAutores = new File(xmlAutor);
 		if (ficheroXMLAutores.exists()) {
@@ -157,23 +165,27 @@ public final class GestorFicherosXML {
 		} else {
 			msgNoExiste("autores");
 
-			return null;
+			return new ArrayList<Autor>();
 		}
 
 	}
 
 	// Método para exportar el fichero XML de AUTORES
 	public static void exportarXMLAutores(ArrayList<Autor> listaAutores) {
+		GestorFicherosBinarios.comprobarDirectorios();
 		try {
 
 			DocumentBuilderFactory factoryAutores = DocumentBuilderFactory.newInstance();
 			DocumentBuilder constructorXMLAutores = factoryAutores.newDocumentBuilder();
 			Document xmlAutores = constructorXMLAutores.newDocument();
+			
+			Element autores = (Element) xmlAutores.createElement("autores");
 
 			for (int i = 0; i < listaAutores.size(); i++) {
 				Element nuevoAutor = (Element) xmlAutores.createElement(etiquetasAutor[0]);
 				nuevoAutor.setAttribute(etiquetasAutor[1], String.valueOf(listaAutores.get(i).getId()));
-
+				
+				
 				Element nombreAutor = (Element) xmlAutores.createElement(etiquetasAutor[2]);
 				nombreAutor.appendChild(xmlAutores.createTextNode(listaAutores.get(i).getNombre()));
 				nuevoAutor.appendChild(nombreAutor);
@@ -186,8 +198,12 @@ public final class GestorFicherosXML {
 				anioNacimientoAutor.appendChild(
 						xmlAutores.createTextNode(String.valueOf(listaAutores.get(i).getAnioNacimiento())));
 				nuevoAutor.appendChild(anioNacimientoAutor);
+				
+				autores.appendChild(nuevoAutor);
 
 			}
+			
+			xmlAutores.appendChild(autores);
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
@@ -209,6 +225,7 @@ public final class GestorFicherosXML {
 
 	// Método para importar los PRÉSTAMOS desde su fichero XML
 	public static ArrayList<Prestamo> importarXMLPrestamos() {
+		GestorFicherosBinarios.comprobarDirectorios();
 		ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
 
 		File ficheroXMLPrestamos = new File(xmlPrestamo);
@@ -248,17 +265,20 @@ public final class GestorFicherosXML {
 		} else {
 			msgNoExiste("préstamos");
 
-			return null;
+			return new ArrayList<Prestamo>();
 		}
 	}
 
 	// Método para importar el fichero XML de los PRÉSTAMOS
 	public static void exportarXMLPrestamos(ArrayList<Prestamo> listaPrestamos) {
+		GestorFicherosBinarios.comprobarDirectorios();
 		try {
 
 			DocumentBuilderFactory factoryPrestamos = DocumentBuilderFactory.newInstance();
 			DocumentBuilder constructorXMLPrestamos = factoryPrestamos.newDocumentBuilder();
 			Document xmlPrestamos = constructorXMLPrestamos.newDocument();
+			
+			Element prestamos = (Element) xmlPrestamos.createElement("prestamos");
 
 			for (int i = 0; i < listaPrestamos.size(); i++) {
 				Element nuevoPrestamo = (Element) xmlPrestamos.createElement(etiquetasPrestamo[0]);
@@ -279,8 +299,11 @@ public final class GestorFicherosXML {
 				Element fechaDevolucion = (Element) xmlPrestamos.createElement(etiquetasPrestamo[5]);
 				fechaDevolucion.appendChild(xmlPrestamos.createTextNode(listaPrestamos.get(i).getFechaDevolucion()));
 				nuevoPrestamo.appendChild(fechaPrestamo);
+				
+				prestamos.appendChild(nuevoPrestamo);
 
 			}
+			xmlPrestamos.appendChild(prestamos);
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();

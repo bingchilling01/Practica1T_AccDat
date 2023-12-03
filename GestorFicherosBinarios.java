@@ -6,34 +6,7 @@ import java.util.List;
 
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
-public class GestorFicherosBinarios {
-
-	// Ruta donde se va a guardar todos los ficheros
-	static final String rutaCarpetaRaiz = "C:/Practica1T_AD/";
-	static File carpetaRaiz = new File(rutaCarpetaRaiz);
-	static String rutaRespaldos = rutaCarpetaRaiz + "respaldos/";
-	static File directorioRespaldos = new File(rutaRespaldos);
-	
-	// Método para comprobar si los directorios existen, si no, los crea,
-	// sirve para evitar Excepciones
-	public static void comprobarDirectorios() {
-		if(!carpetaRaiz.exists()) {
-			try {
-				carpetaRaiz.mkdir();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-		if(!directorioRespaldos.exists()) {
-			try {
-				directorioRespaldos.mkdir();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		
-	}
+public final class GestorFicherosBinarios extends GestorFicheros {
 
 	// Gestión de ficheros binarios de LIBROS
 	// Fichero binario de los libros y su fichero copia de seguridad
@@ -41,36 +14,38 @@ public class GestorFicherosBinarios {
 	private static File archivoRespaldoLibros = new File(rutaRespaldos + "libros_bin.bak");
 
 	// Método para insertar un libro nuevo en su archivo binario, NO usado
-//	public static void escribirLibroNuevo(Libro nuevoLibro) {
-//		try {
-//
-//			// El true en el constructor de FileOutputStream significa que escribe
-//			// al final del archivo, sin eliminar su contenido antes
-//			FileOutputStream streamSalida = new FileOutputStream(archivoLibros, true);
-//
-//			// Si el archivo está vacío se escribirá el nuevo libro con la cabecera
-//			if (archivoLibros.length() == 0) {
-//				ObjectOutputStream escribirLibro = new ObjectOutputStream(streamSalida);
-//				escribirLibro.writeObject(nuevoLibro);
-//				escribirLibro.close();
-//			} else {
-//				// Guardamos una copia de seguridad antes de insertar el libro nuevo, si
-//				// el archivo binario NO está vacío
-//				guardarRespaldoLibros();
-//
-//				// Si no está vacío se escribirá sin la cabecera para evitar errores de lectura
-//				EscritorSinCabecera escribirSinCabecera = new EscritorSinCabecera(streamSalida);
-//				escribirSinCabecera.writeObject(nuevoLibro);
-//				escribirSinCabecera.close();
-//			}
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
-//	}
+	public static void escribirLibroNuevo(Libro nuevoLibro) {
+		try {
+
+			// El true en el constructor de FileOutputStream significa que escribe
+			// al final del archivo, sin eliminar su contenido antes
+			FileOutputStream streamSalida = new FileOutputStream(archivoLibros, true);
+
+			// Si el archivo está vacío se escribirá el nuevo libro con la cabecera
+			if (archivoLibros.length() == 0) {
+				ObjectOutputStream escribirLibro = new ObjectOutputStream(streamSalida);
+				escribirLibro.writeObject(nuevoLibro);
+				escribirLibro.close();
+			} else {
+				// Guardamos una copia de seguridad antes de insertar el libro nuevo, si
+				// el archivo binario NO está vacío
+				guardarRespaldoLibros();
+
+				// Si no está vacío se escribirá sin la cabecera para evitar errores de lectura
+				EscritorSinCabecera escribirSinCabecera = new EscritorSinCabecera(streamSalida);
+				escribirSinCabecera.writeObject(nuevoLibro);
+				escribirSinCabecera.close();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	// Método que escribe un ArrayList de libros en el archivo binario
 	public static void escribirFicheroLibros(ArrayList<Libro> listaLibros) {
 		try {
+			
+			// Comprobamos que los directorios existen para evitar errores
 			comprobarDirectorios();
 			// Guardamos una copia de seguridad antes de modificar libros
 			guardarRespaldoLibros();
@@ -94,7 +69,8 @@ public class GestorFicherosBinarios {
 		ArrayList<Libro> listaLibros = new ArrayList<>();
 		boolean eof = false;
 		try {
-			
+
+			// Comprobamos que los directorios existen para evitar errores
 			comprobarDirectorios();
 
 			// Si el archivo binario no existe, lo creo, para evitar un
@@ -146,12 +122,6 @@ public class GestorFicherosBinarios {
 
 	}
 	
-	public static void restaurarRespaldoLibros() {
-		
-	}
-
-
-	
 	
 	// Gestión de ficheros binarios de AUTORES
 	// Fichero binario de los libros y su fichero copia de seguridad
@@ -159,38 +129,39 @@ public class GestorFicherosBinarios {
 	private static File archivoRespaldoAutores = new File(rutaRespaldos + "autores_bin.bak");
 
 	// Método para insertar un libro nuevo en su archivo binario, NO usado
-//	public static void escribirAutorNuevo(Autor nuevoAutor) {
-//		try {
-//
-//			// El true en el constructor de FileOutputStream significa que escribe
-//			// al final del archivo, sin eliminar su contenido antes
-//			FileOutputStream streamSalida = new FileOutputStream(archivoAutores, true);
-//
-//			// Si el archivo está vacío se escribirá el nuevo autor con la cabecera
-//			if (archivoAutores.length() == 0) {
-//				ObjectOutputStream escribirAutor = new ObjectOutputStream(streamSalida);
-//				escribirAutor.writeObject(nuevoAutor);
-//				escribirAutor.close();
-//			} else {
-//				// Guardamos una copia de seguridad antes de insertar el autor nuevo, si
-//				// el archivo binario NO está vacío
-//				guardarRespaldoLibros();
-//
-//				// Si no está vacío se escribirá sin la cabecera para evitar errores de lectura
-//				EscritorSinCabecera escribirSinCabecera = new EscritorSinCabecera(streamSalida);
-//				escribirSinCabecera.writeObject(nuevoAutor);
-//				escribirSinCabecera.close();
-//			}
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
-//	}
+	public static void escribirAutorNuevo(Autor nuevoAutor) {
+		try {
+
+			// El true en el constructor de FileOutputStream significa que escribe
+			// al final del archivo, sin eliminar su contenido antes
+			FileOutputStream streamSalida = new FileOutputStream(archivoAutores, true);
+
+			// Si el archivo está vacío se escribirá el nuevo autor con la cabecera
+			if (archivoAutores.length() == 0) {
+				ObjectOutputStream escribirAutor = new ObjectOutputStream(streamSalida);
+				escribirAutor.writeObject(nuevoAutor);
+				escribirAutor.close();
+			} else {
+				// Guardamos una copia de seguridad antes de insertar el autor nuevo, si
+				// el archivo binario NO está vacío
+				guardarRespaldoLibros();
+
+				// Si no está vacío se escribirá sin la cabecera para evitar errores de lectura
+				EscritorSinCabecera escribirSinCabecera = new EscritorSinCabecera(streamSalida);
+				escribirSinCabecera.writeObject(nuevoAutor);
+				escribirSinCabecera.close();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	// Método que escribe un ArrayList de autores en el archivo binario, se usará
 	// este método para cuando el usuario quiera modificar o eliminar autores
 	public static void escribirFicheroAutores(ArrayList<Autor> listaAutores) {
 		try {
-
+			
+			comprobarDirectorios();
 			// Guardamos una copia de seguridad antes de modificar autores
 			guardarRespaldoAutores();
 			// En esta escritura borraremos el contenido el archivo y la
@@ -213,6 +184,9 @@ public class GestorFicherosBinarios {
 		ArrayList<Autor> listaAutores = new ArrayList<>();
 		boolean eof = false;
 		try {
+			
+			// Comprobamos que los directorios existen para evitar errores
+			comprobarDirectorios();
 
 			// Si el archivo binario no existe, lo creamos, para evitar un
 			// FileNotFoundException
@@ -262,10 +236,6 @@ public class GestorFicherosBinarios {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}
-	
-	public static void restaurarRespaldoAutores() {
-		
 	}
 
 }
