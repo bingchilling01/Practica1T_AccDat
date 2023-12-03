@@ -2,8 +2,8 @@ package ejercicio;
 
 public class Principal {
 	
-	private static GestorFicheros gestorFicheros = new GestorFicheros();
-
+	private static final int opcionSalida = 0;
+	
 	public static void main(String[] args) {
 		boolean salir = false;
 		while (!salir) {
@@ -24,9 +24,10 @@ public class Principal {
 				break;
 			case 4:
 				// Exportar/Importar datos con XML
-				gestionarExportImportXML();
+				gestionarFicherosXML();
 				break;
-			case 5:
+			case opcionSalida:
+				ES.msgln("Programa finalizado...");
 				salir = true;
 				break;
 			default:
@@ -43,7 +44,7 @@ public class Principal {
 		ES.msgln("2. Gestionar Autores");
 		ES.msgln("3. Gestionar Préstamos");
 		ES.msgln("4. Exportar/Importar Datos (XML)");
-		ES.msgln("5. Salir");
+		ES.msgln("0. Salir del programa");
 	}
 	
 	private static void mostrarSubMenu(String tipo) {
@@ -56,7 +57,7 @@ public class Principal {
 		}
 		ES.msgln("3. Modificar un " + tipo);
 		ES.msgln("4. Eliminar un " + tipo);
-		ES.msgln("5. Salir al menú principal");
+		ES.msgln("0. Volver al menú principal");
 	}
 
 	private static void gestionarLibros() {
@@ -66,20 +67,22 @@ public class Principal {
 			int opcionLibros = ES.leeEntero("Seleccione una opción: ");
 			switch (opcionLibros) {
 			case 1:
-				
+				Libro.nuevoLibro();
 				break;
 				
 			case 2: 
-				
+				Libro.imprimirLibros();
 				break;
 				
 			case 3:
+				Libro.modificarLibro();
 				break;
 				
 			case 4:
+				Libro.eliminarLibro();
 				break;
 				
-			case 5:
+			case opcionSalida:
 				salirMenuLibros = true;
 				break;
 			
@@ -98,25 +101,28 @@ public class Principal {
 			int opcionAutor = ES.leeEntero("Seleccione una opción: ");
 			switch (opcionAutor) {
 			case 1:
-				
+				Autor.nuevoAutor();
 				break;
 				
 			case 2: 
-				
+				Autor.imprimirAutores();
 				break;
 				
 			case 3:
+				Autor.modificarAutor();
 				break;
 				
 			case 4:
+				Autor.eliminarAutor();
 				break;
 				
-			case 5:
+			case opcionSalida:
 				salirMenuAutores = true;
 				break;
 			
 			default:
 				ES.msgErrln(errorOpcion);
+				break;
 			}
 		}
 	}
@@ -128,7 +134,7 @@ public class Principal {
 			int opcionPrestamos = ES.leeEntero("Seleccione una opción: ");
 			switch (opcionPrestamos) {
 			case 1:
-				
+				Prestamo.nuevoPrestamo();
 				break;
 				
 			case 2: 
@@ -141,18 +147,93 @@ public class Principal {
 			case 4:
 				break;
 				
-			case 5:
+			case opcionSalida:
 				salirMenuPrestamos = true;
 				break;
 			
 			default:
 				ES.msgErrln(errorOpcion);
+				break;
 			}
 		}
 	}
+	
 
-	private static void gestionarExportImportXML() {
-		// Implementar lógica para exportar/importar datos con XML
+	private static void gestionarFicherosXML() {
+		boolean salirMenuXML = false;
+		while(!salirMenuXML) {
+			ES.msgln("Sobre qué objeto quiere realizar importación o exportación de XML:");
+			ES.msgln("1. Libros");
+			ES.msgln("2. Autores");
+			ES.msgln("3. Préstamos");
+			ES.msgln("0. Volver al menú principal");
+			int opcionXML = ES.leeEntero("Seleccione: ");
+			switch(opcionXML) {
+			case 1:
+				xmlLibros();
+				break;
+			case 2:
+				xmlAutores();
+				break;
+			case 3:
+				subMenuXML("préstamos");
+				break;
+			case opcionSalida:
+				salirMenuXML = true;
+				break;
+			default:
+				ES.msgErrln(errorOpcion);
+				break;
+			}
+		}
 	}
-	// Otros métodos según sea necesario
+	
+	private static void subMenuXML(String tipo) {
+		ES.msgln("1. Importar " + tipo);
+		ES.msgln("2. Exportar " + tipo);
+		ES.msgln("0. Volver al menú anterior");
+	}
+	
+	private static void xmlLibros() {
+		boolean salir = false;
+		while(!salir) {
+			subMenuXML("libros");
+			int opcion = ES.leeEntero("Seleccione: ");
+			switch (opcion) {
+			case 1:
+				Libro.importarDatosXML();
+				break;
+			case 2:
+				Libro.exportarDatosXML();
+				break;
+			case opcionSalida:
+				salir = true;
+				break;
+			default:
+				ES.msgErrln(errorOpcion);
+			}
+		}
+	}
+	
+	public static void xmlAutores() {
+		boolean salir = false;
+		while(!salir) {
+			subMenuXML("autores");
+			int opcion = ES.leeEntero("Seleccione: ");
+			switch (opcion) {
+			case 1:
+				Autor.importarDatosXML();
+				break;
+			case 2:
+				Autor.exportarDatosXML();
+				break;
+			case opcionSalida:
+				salir = true;
+				break;
+			default:
+				ES.msgErrln(errorOpcion);
+			}
+		}
+	}
+	
 }
