@@ -63,7 +63,7 @@ public class ES {
                 numero = teclado.nextInt();
                 leido = true;
             } catch (Exception e) {
-                ES.msgln("Error: No es un número entero válido. ");
+                ES.msgErrln("Error: No es un número entero válido. ");
             }
         } while (!leido);
         return numero;
@@ -124,10 +124,10 @@ public class ES {
                 if (numero >= minimo) {
                     leido = true;
                 } else {
-                    ES.msgln("Error: Debe ser un número entero mayor o igual que " + minimo + ".");
+                    ES.msgErrln("Error: Debe ser un número entero mayor o igual que " + minimo + ".");
                 }
             } catch (Exception e) {
-                ES.msgln("Error: No es un número entero válido. ");
+                ES.msgErrln("Error: No es un número entero válido. ");
             }
 
         } while (!leido);
@@ -163,10 +163,10 @@ public class ES {
                     if (numero >= minimo && numero <= maximo) {
                         leido = true;
                     } else {
-                        ES.msgln("Error: Debe ser un número entero mayor o igual que " + minimo + " y menor o igual que " + maximo + ". ");
+                        ES.msgErrln("Error: Debe ser un número entero mayor o igual que " + minimo + " y menor o igual que " + maximo + ". ");
                     }
                 } catch (Exception e) {
-                    ES.msgln("Error: No es un número entero válido. ");
+                    ES.msgErrln("Error: No es un número entero válido. ");
                 }
             } while (!leido);
         } else {
@@ -451,10 +451,10 @@ public class ES {
                 if (cadena != null && cadena.length() == 1 && ((cadena.equalsIgnoreCase("S")) || (cadena.equalsIgnoreCase("N")))) {
                     correcta = true;
                 } else {
-                    ES.msgln("Error: Solo se admite como respuesta un único carácter, que debe ser 's', 'S', 'n' o 'N'.");
+                    ES.msgErrln("Error: Solo se admite como respuesta un único carácter, que debe ser 's', 'S', 'n' o 'N'.");
                 }
             } catch (Exception e) {
-                ES.msgln("Error: Ha fallado la entrada de datos.");
+                ES.msgErrln("Error: Ha fallado la entrada de datos.");
             }
         } while (!correcta);
         return cadena.toUpperCase();
