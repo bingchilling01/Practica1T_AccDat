@@ -201,19 +201,32 @@ public class Autor implements Serializable {
 	}
 	
 	public static void importarDatosXML() {
-		ArrayList<Autor> listaTemporal = GestorFicherosXML.importarXMLAutores();
+		
+		// Asignamos al ArrayList lo que devuelve el lector de XML
+		ArrayList<Autor> listaAutores = GestorFicherosXML.importarXMLAutores();
 
-		if (listaTemporal != null) {
-			ArrayList<Autor> listaAutores = listaTemporal;
+		// Si lo que ha devuelto la función de importar XML NO está nulo ni vacío, escribimos el 
+		// archivo binario con los datos del ArrayList
+		if (listaAutores != null && !listaAutores.isEmpty()) {
 			GestorFicherosBinarios.escribirFicheroAutores(listaAutores);
 			ES.msgln("Datos importados");
+		} else {
+			ES.msgErrln("No hay datos en el XML");
 		}
 	}
 
 	public static void exportarDatosXML() {
+		
+		// Primero leemos el fichero binario y se lo asignamos a un ArrayList
 		ArrayList<Autor> listaAutores = GestorFicherosBinarios.leerFicheroAutores();
-		GestorFicherosXML.exportarXMLAutores(listaAutores);
-		ES.msgln("Datos exportados");
+		
+		// Si el ArrayList NO está vacío, exporta el XML
+		if(!listaAutores.isEmpty()) {
+			GestorFicherosXML.exportarXMLAutores(listaAutores);
+			ES.msgln("Datos exportados");
+		} else {
+			ES.msgErrln("No se puede exportar un archivo vacío");
+		}
 	}
 
 }

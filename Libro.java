@@ -219,19 +219,29 @@ public class Libro implements Serializable {
 	}
 
 	public static void importarDatosXML() {
-		ArrayList<Libro> listaTemporal = GestorFicherosXML.importarXMLLibros();
+		
+		// Asignamos al ArrayList lo que devuelve el lector de XML
+		ArrayList<Libro> listaLibros = GestorFicherosXML.importarXMLLibros();
 
-		if (listaTemporal != null) {
-			ArrayList<Libro> listaLibros = listaTemporal;
+		if (listaLibros != null && !listaLibros.isEmpty()) {
 			GestorFicherosBinarios.escribirFicheroLibros(listaLibros);
 			ES.msgln("Datos importados");
+		} else {
+			ES.msgErrln("No hay datos en el XML");
 		}
 	}
 
 	public static void exportarDatosXML() {
+		
+		// Primero leemos el fichero binario y se lo asignamos a un ArrayList
 		ArrayList<Libro> listaLibros = GestorFicherosBinarios.leerFicheroLibros();
-		GestorFicherosXML.exportarXMLLibros(listaLibros);
-		ES.msgln("Datos exportados");
+		
+		if(!listaLibros.isEmpty()) {
+			GestorFicherosXML.exportarXMLLibros(listaLibros);
+			ES.msgln("Datos exportados");
+		} else {
+			ES.msgErrln("No se puede exportar un archivo vacío");
+		}
 	}
 
 }

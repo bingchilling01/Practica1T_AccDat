@@ -38,6 +38,7 @@ public class Principal {
 	
 	private final static String errorOpcion = "Opción no válida. Por favor, intente de nuevo.";
 
+	// Método para mostrar el menú principal
 	private static void mostrarMenu() {
 		ES.msgln("Bienvenido al Sistema de Gestión de Biblioteca");
 		ES.msgln("1. Gestionar Libros");
@@ -47,6 +48,7 @@ public class Principal {
 		ES.msgln("0. Salir del programa");
 	}
 	
+	// Método para mostrar los submenús, dependiendo el tipo de objeto que se quiera manejar
 	private static void mostrarSubMenu(String tipo) {
 		ES.msgln("Bienvenido a la Gestión de " + tipo);
 		ES.msgln("1. Insertar nuevo " + tipo);
@@ -138,13 +140,15 @@ public class Principal {
 				break;
 				
 			case 2: 
-				
+				Prestamo.leerPrestamos();
 				break;
 				
 			case 3:
+				Prestamo.modificarPrestamo();
 				break;
 				
 			case 4:
+				Prestamo.eliminarPrestamo();
 				break;
 				
 			case opcionSalida:
@@ -165,19 +169,17 @@ public class Principal {
 			ES.msgln("Sobre qué objeto quiere realizar importación o exportación de XML:");
 			ES.msgln("1. Libros");
 			ES.msgln("2. Autores");
-			ES.msgln("3. Préstamos");
 			ES.msgln("0. Volver al menú principal");
 			int opcionXML = ES.leeEntero("Seleccione: ");
 			switch(opcionXML) {
 			case 1:
 				xmlLibros();
 				break;
+				
 			case 2:
 				xmlAutores();
 				break;
-			case 3:
-				subMenuXML("préstamos");
-				break;
+
 			case opcionSalida:
 				salirMenuXML = true;
 				break;

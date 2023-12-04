@@ -13,14 +13,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public final class GestorFicherosXML extends GestorFicheros {
-
-	private static void msgNoExiste(String tipo) {
-		ES.msgErrln("El fichero XML de los " + tipo + " NO existe.");
-	}
 
 	// Atributos y métodos para los XML de los LIBROS
 	private static final String xmlLibro = rutaXML + "libros.xml";
@@ -64,7 +59,6 @@ public final class GestorFicherosXML extends GestorFicheros {
 			return listaLibros;
 
 		} else {
-			msgNoExiste("libros");
 			// Si el archivo no existe devolveremos un valor NULO
 			return null;
 		}
@@ -163,9 +157,8 @@ public final class GestorFicherosXML extends GestorFicheros {
 
 			return listaAutores;
 		} else {
-			msgNoExiste("autores");
 
-			return new ArrayList<Autor>();
+			return null;
 		}
 
 	}
@@ -218,6 +211,10 @@ public final class GestorFicherosXML extends GestorFicheros {
 		}
 	}
 
+	
+	
+	
+	// Lo de abajo NO SE USA
 	// Atributos y métodos para los XML de los PRÉSTAMOS
 	private static final String xmlPrestamo = rutaXML + "prestamos.xml";
 	private static final String etiquetasPrestamo[] = { "prestamo", "id", "id_libro", "usuario", "fecha_prestamo",
@@ -263,9 +260,8 @@ public final class GestorFicherosXML extends GestorFicheros {
 			return listaPrestamos;
 
 		} else {
-			msgNoExiste("préstamos");
-
-			return new ArrayList<Prestamo>();
+			
+			return null;
 		}
 	}
 

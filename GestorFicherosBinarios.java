@@ -2,9 +2,6 @@ package ejercicio;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public final class GestorFicherosBinarios extends GestorFicheros {
 
