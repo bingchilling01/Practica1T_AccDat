@@ -91,6 +91,8 @@ public class Autor implements Serializable {
 				if (autor.id == idNuevo) {
 					ES.msgErrln("\nYa hay un autor con este ID, introduce otro\n");
 					idRepetido = true;
+					break; // Este break sirve para que no salte al else en los 
+					   	   // otros autores del ArrayList
 				} else {
 					idRepetido = false;
 				}
@@ -187,10 +189,10 @@ public class Autor implements Serializable {
 					break;
 				}
 
-				if (!libroEncontrado) {
-					ES.msgErrln("\nNo hay ningún autor con el ID: " + idBuscado + "\n");
-				}
-
+			}
+			
+			if (!libroEncontrado) {
+				ES.msgErrln("\nNo hay ningún autor con el ID: " + idBuscado + "\n");
 			}
 
 		} else {

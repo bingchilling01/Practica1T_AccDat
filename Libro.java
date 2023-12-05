@@ -104,6 +104,8 @@ public class Libro implements Serializable {
 				if (libro.id == idNuevo) {
 					ES.msgErrln("\nYa hay un libro con este ID, introduce otro\n");
 					idRepetido = true;
+					break; // Este break sirve para que no salte al else en los 
+						   // otros libros del ArrayList
 				} else {
 					idRepetido = false;
 				}
@@ -115,8 +117,7 @@ public class Libro implements Serializable {
 		if (!idRepetido) {
 			String tituloNuevo = ES.leeCadena("Título del libro nuevo: ");
 			String autorLibro = ES.leeCadena("Autor del libro: ");
-			int anioPub = ES.leeEntero("Año de publicación (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN,
-					ANIO_MAX);
+			int anioPub = ES.leeEntero("Año de publicación (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN,ANIO_MAX);
 			String generoLibro = ES.leeCadena("Género del libro: ");
 
 			// Una vez introducido los detalles del nuevo libro, se añadirá al ArrayList
@@ -205,10 +206,10 @@ public class Libro implements Serializable {
 					break;
 				}
 
-				if (!libroEncontrado) {
-					ES.msgErrln("\nNo hay ningún libro con el ID: " + idBuscado + "\n");
-				}
-
+			}
+			
+			if (!libroEncontrado) {
+				ES.msgErrln("\nNo hay ningún libro con el ID: " + idBuscado + "\n");
 			}
 
 		} else {
