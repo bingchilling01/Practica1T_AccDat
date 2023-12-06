@@ -120,10 +120,9 @@ public class Libro implements Serializable {
 			int anioPub = ES.leeEntero("Año de publicación (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN,ANIO_MAX);
 			String generoLibro = ES.leeCadena("Género del libro: ");
 
-			// Una vez introducido los detalles del nuevo libro, se añadirá al ArrayList
-			// y se escribirá en su fichero binario
-			listaLibros.add(new Libro(idNuevo, tituloNuevo, autorLibro, anioPub, generoLibro));
-			GestorFicherosBinarios.escribirFicheroLibros(listaLibros);
+			// Una vez introducido los detalles del nuevo libro, se escribirá
+			// el fichero binario desde el EOF
+			GestorFicherosBinarios.escribirLibroNuevo(new Libro(idNuevo, tituloNuevo, autorLibro, anioPub, generoLibro));
 		}
 	}
 

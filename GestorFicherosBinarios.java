@@ -10,7 +10,7 @@ public final class GestorFicherosBinarios extends GestorFicheros {
 	private static File archivoLibros = new File(rutaCarpetaRaiz + "libros.bin");
 	private static File archivoRespaldoLibros = new File(rutaRespaldos + "libros_bin.bak");
 
-	// Método para insertar un libro nuevo en su archivo binario, NO usado
+	// Método para insertar un libro nuevo en su archivo binario
 	public static void escribirLibroNuevo(Libro nuevoLibro) {
 		try {
 
@@ -125,7 +125,7 @@ public final class GestorFicherosBinarios extends GestorFicheros {
 	private static File archivoAutores = new File(rutaCarpetaRaiz + "autores.bin");
 	private static File archivoRespaldoAutores = new File(rutaRespaldos + "autores_bin.bak");
 
-	// Método para insertar un libro nuevo en su archivo binario, NO usado
+	// Método para insertar un libro nuevo en su archivo binario
 	public static void escribirAutorNuevo(Autor nuevoAutor) {
 		try {
 

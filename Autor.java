@@ -106,10 +106,9 @@ public class Autor implements Serializable {
 			String nacionalidadAutor = ES.leeCadena("Su nacionalidad: ");
 			int anioNac = ES.leeEntero("Su año de nacimiento (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN, ANIO_MAX);
 			
-			// Una vez introducido los detalles del nuevo autor, se añadirá al ArrayList
-			// y se escribirá en su fichero binario
-			listaAutores.add(new Autor(idNuevo, nombreAutor, nacionalidadAutor, anioNac));
-			GestorFicherosBinarios.escribirFicheroAutores(listaAutores);
+			// Una vez introducido los detalles del nuevo autor, se escribirá
+			// el fichero binario desde el EOF
+			GestorFicherosBinarios.escribirAutorNuevo(new Autor(idNuevo, nombreAutor, nacionalidadAutor, anioNac));
 		}
 	}
 	
