@@ -106,6 +106,8 @@ public class Prestamo implements Serializable {
 				   "--------------------------------------------------------------------\n";
 	}
 	
+	public static final String vacio = "\nNo hay ningún préstamo registrado\n";
+	
 	public static void nuevoPrestamo() {
 		boolean idRepetido = true;
 		int idNuevo = 0;
@@ -137,43 +139,47 @@ public class Prestamo implements Serializable {
 				ES.msgln(linea);
 			}
 		} else {
-			ES.msgErrln("No hay ningún préstamo registrado");
+			ES.msgErrln(vacio);
 		}
 	}
 	
 	public static void modificarPrestamo() {
 		ArrayList<String> lineasPrestamos = GestorFicherosTexto.leerFicheroPrestamos();
 		
-		boolean prestamoEncontrado = false;
-		
-		while (!prestamoEncontrado) {
+		if(!lineasPrestamos.isEmpty()) {
+			boolean prestamoEncontrado = false;
 			
-			int idBuscado = ES.leeEntero("ID del préstamo a modificar: ");
-			
-			if(lineasPrestamos.contains("Préstamo con ID: " + idBuscado)) {
-				int idLibro = ES.leeEntero("Actualizar ID del libro prestado: ");
-				String usuario = ES.leeCadena("Actualizar el usuario que ha tomado el libro: ");
-				String fechaPrestamo = ES.leeCadena("Actualizar fecha de préstamo (si es hoy, pon HOY): ");
-				String fechaDevolucion = ES.leeCadena("Actualizar fecha de devolución, si no se ha devuelto, déjalo vacío: ");
+			while (!prestamoEncontrado) {
 				
-				int posicion = lineasPrestamos.indexOf("Préstamo con ID: " + idBuscado);
+				int idBuscado = ES.leeEntero("ID del préstamo a modificar: ");
 				
-				lineasPrestamos.set(posicion-1, "--------------------------------------------------------------------");
-				lineasPrestamos.set(posicion+0, "Préstamo con ID: " + idBuscado);
-				lineasPrestamos.set(posicion+1, "ID del libro prestado: " + idLibro);
-				lineasPrestamos.set(posicion+2, "Usuario que ha tomado el libro: " + usuario);
-				lineasPrestamos.set(posicion+3, "Fecha del préstamo: " + fechaPrestamo);
-				lineasPrestamos.set(posicion+4, "Fecha de devolución: " + fechaDevolucion);
-				lineasPrestamos.set(posicion+5, "--------------------------------------------------------------------");
+				if(lineasPrestamos.contains("Préstamo con ID: " + idBuscado)) {
+					int idLibro = ES.leeEntero("Actualizar ID del libro prestado: ");
+					String usuario = ES.leeCadena("Actualizar el usuario que ha tomado el libro: ");
+					String fechaPrestamo = ES.leeCadena("Actualizar fecha de préstamo (si es hoy, pon HOY): ");
+					String fechaDevolucion = ES.leeCadena("Actualizar fecha de devolución, si no se ha devuelto, déjalo vacío: ");
+					
+					int posicion = lineasPrestamos.indexOf("Préstamo con ID: " + idBuscado);
+					
+					lineasPrestamos.set(posicion-1, "--------------------------------------------------------------------");
+					lineasPrestamos.set(posicion+0, "Préstamo con ID: " + idBuscado);
+					lineasPrestamos.set(posicion+1, "ID del libro prestado: " + idLibro);
+					lineasPrestamos.set(posicion+2, "Usuario que ha tomado el libro: " + usuario);
+					lineasPrestamos.set(posicion+3, "Fecha del préstamo: " + fechaPrestamo);
+					lineasPrestamos.set(posicion+4, "Fecha de devolución: " + fechaDevolucion);
+					lineasPrestamos.set(posicion+5, "--------------------------------------------------------------------");
+					
+					GestorFicherosTexto.escribirModificacionesPrestamos(lineasPrestamos);
+					
+					ES.msgln("Préstamo actualizado");
+					prestamoEncontrado = true;
+				} else {
+					ES.msgErrln("No hay ningún préstamo con ID: " + idBuscado);
+				}
 				
-				GestorFicherosTexto.escribirModificacionesPrestamos(lineasPrestamos);
-				
-				ES.msgln("Préstamo actualizado");
-				prestamoEncontrado = true;
-			} else {
-				ES.msgErrln("No hay ningún préstamo con ID: " + idBuscado);
 			}
-			
+		} else {
+			ES.msgErrln(vacio);
 		}
 		
 	}
@@ -181,35 +187,37 @@ public class Prestamo implements Serializable {
 	public static void eliminarPrestamo() {
 	    ArrayList<String> lineasPrestamos = GestorFicherosTexto.leerFicheroPrestamos();
 
-	    boolean prestamoEncontrado = false;
-
-	    while (!prestamoEncontrado) {
-
-	        int idBuscado = ES.leeEntero("ID del préstamo a eliminar: ");
-
-	        if(lineasPrestamos.contains("Préstamo con ID: " + idBuscado)) {
-	            int posicion = lineasPrestamos.indexOf("Préstamo con ID: " + idBuscado);
-
-	            for (int i = -1; i < 6; i++) {
-	                lineasPrestamos.set(posicion+i, "");
-	            }
-	            
-	            for (int i = lineasPrestamos.size() - 1; i >= 0; i--) {
-	                if (lineasPrestamos.get(i).isEmpty()) {
-	                    lineasPrestamos.remove(i);
-	                }
-	            }
-
-	            GestorFicherosTexto.escribirModificacionesPrestamos(lineasPrestamos);
-
-	            ES.msgln("Préstamo eliminado");
-	            prestamoEncontrado = true;
-	        } else {
-	            ES.msgErrln("No hay ningún préstamo con ID: " + idBuscado);
-	        }
-
+	    if(!lineasPrestamos.isEmpty()) {
+	    
+		    boolean prestamoEncontrado = false;
+	
+		    while (!prestamoEncontrado) {
+	
+		        int idBuscado = ES.leeEntero("ID del préstamo a eliminar: ");
+	
+		        if(lineasPrestamos.contains("Préstamo con ID: " + idBuscado)) {
+		            int posicion = lineasPrestamos.indexOf("Préstamo con ID: " + idBuscado);
+	
+		            for (int i = -1; i < 6; i++) {
+		                lineasPrestamos.set(posicion+i, "");
+		            }
+		            
+		            for (int i = lineasPrestamos.size() - 1; i >= 0; i--) {
+		                if (lineasPrestamos.get(i).isEmpty()) {
+		                    lineasPrestamos.remove(i);
+		                }
+		            }
+	
+		            GestorFicherosTexto.escribirModificacionesPrestamos(lineasPrestamos);
+	
+		            ES.msgln("Préstamo eliminado");
+		            prestamoEncontrado = true;
+		        } else {
+		            ES.msgErrln("No hay ningún préstamo con ID: " + idBuscado);
+		        }
+		    }
+	    } else {
+	    	ES.msgErrln(vacio);
 	    }
-
 	}
-
 }

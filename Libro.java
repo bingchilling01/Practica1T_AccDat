@@ -225,9 +225,9 @@ public class Libro implements Serializable {
 
 		if (listaLibros != null && !listaLibros.isEmpty()) {
 			GestorFicherosBinarios.escribirFicheroLibros(listaLibros);
-			ES.msgln("Datos importados");
+			ES.msgln("\nDatos importados\n");
 		} else {
-			ES.msgErrln("No hay datos en el XML");
+			ES.msgErrln("\nNo hay datos en el XML\n");
 		}
 	}
 
@@ -238,9 +238,9 @@ public class Libro implements Serializable {
 		
 		if(!listaLibros.isEmpty()) {
 			GestorFicherosXML.exportarXMLLibros(listaLibros);
-			ES.msgln("Datos exportados");
+			ES.msgln("\nDatos exportados\n");
 		} else {
-			ES.msgErrln("No se puede exportar un archivo vacío");
+			ES.msgErrln("\nNo se puede exportar un archivo vacío\n");
 		}
 	}
 
