@@ -99,7 +99,7 @@ public final class GestorFicherosBinarios extends GestorFicheros {
 		return listaLibros;
 	}
 
-	public static void guardarRespaldoLibros() {
+	private static void guardarRespaldoLibros() {
 		ArrayList<Libro> listaLibros = new ArrayList<>();
 		// Guardamos los libros en el ArrayList llamando a la función de lectura
 		listaLibros = leerFicheroLibros();
@@ -141,7 +141,7 @@ public final class GestorFicherosBinarios extends GestorFicheros {
 			} else {
 				// Guardamos una copia de seguridad antes de insertar el autor nuevo, si
 				// el archivo binario NO está vacío
-				guardarRespaldoLibros();
+				guardarRespaldoAutores();
 
 				// Si no está vacío se escribirá sin la cabecera para evitar errores de lectura
 				EscritorSinCabecera escribirSinCabecera = new EscritorSinCabecera(streamSalida);
@@ -215,7 +215,7 @@ public final class GestorFicherosBinarios extends GestorFicheros {
 	}
 
 
-	public static void guardarRespaldoAutores() {
+	private static void guardarRespaldoAutores() {
 		// Declaramos un ArrayList de autores
 		ArrayList<Autor> listaAutores = new ArrayList<>();
 		// Guardamos los autores en el ArrayList con la función de lectura
