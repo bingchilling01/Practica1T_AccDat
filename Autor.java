@@ -106,10 +106,10 @@ public class Autor implements Serializable {
 			String nacionalidadAutor = ES.leeCadena("Su nacionalidad: ");
 			int anioNac = ES.leeEntero("Su año de nacimiento (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN, ANIO_MAX);
 			
-			// Una vez introducido los detalles del nuevo autor, se añadirá al ArrayList
-			// y se escribirá en su fichero binario
-			listaAutores.add(new Autor(idNuevo, nombreAutor, nacionalidadAutor, anioNac));
-			GestorFicherosBinarios.escribirFicheroAutores(listaAutores);
+			// Una vez introducido los detalles del nuevo autor, se escribirá
+			// el fichero binario desde el EOF
+			GestorFicherosBinarios.escribirAutorNuevo(new Autor(idNuevo, nombreAutor, nacionalidadAutor, anioNac));
+			ES.msgln("\nAutor introducido exitosamente\n");
 		}
 	}
 	
@@ -211,9 +211,9 @@ public class Autor implements Serializable {
 		// archivo binario con los datos del ArrayList
 		if (listaAutores != null && !listaAutores.isEmpty()) {
 			GestorFicherosBinarios.escribirFicheroAutores(listaAutores);
-			ES.msgln("Datos importados");
+			ES.msgln("\nDatos importados\n");
 		} else {
-			ES.msgErrln("No hay datos en el XML");
+			ES.msgErrln("\nNo hay datos en el XML\n");
 		}
 	}
 
@@ -225,9 +225,9 @@ public class Autor implements Serializable {
 		// Si el ArrayList NO está vacío, exporta el XML
 		if(!listaAutores.isEmpty()) {
 			GestorFicherosXML.exportarXMLAutores(listaAutores);
-			ES.msgln("Datos exportados");
+			ES.msgln("\nDatos exportados\n");
 		} else {
-			ES.msgErrln("No se puede exportar un archivo vacío");
+			ES.msgErrln("\nNo se puede exportar un archivo vacío\n");
 		}
 	}
 

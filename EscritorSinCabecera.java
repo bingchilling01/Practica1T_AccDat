@@ -12,6 +12,6 @@ public class EscritorSinCabecera extends ObjectOutputStream {
 	
 	@Override
 	protected void writeStreamHeader() throws IOException {
-		// Sin cabecera
+		// Sobreescribimos este método dejándolo vacío para que escriba datos sin cabecera
 	}
 }

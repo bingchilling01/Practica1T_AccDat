@@ -120,10 +120,10 @@ public class Libro implements Serializable {
 			int anioPub = ES.leeEntero("Año de publicación (entre " + ANIO_MIN + " y " + ANIO_MAX + "): ", ANIO_MIN,ANIO_MAX);
 			String generoLibro = ES.leeCadena("Género del libro: ");
 
-			// Una vez introducido los detalles del nuevo libro, se añadirá al ArrayList
-			// y se escribirá en su fichero binario
-			listaLibros.add(new Libro(idNuevo, tituloNuevo, autorLibro, anioPub, generoLibro));
-			GestorFicherosBinarios.escribirFicheroLibros(listaLibros);
+			// Una vez introducido los detalles del nuevo libro, se escribirá
+			// el fichero binario desde el EOF
+			GestorFicherosBinarios.escribirLibroNuevo(new Libro(idNuevo, tituloNuevo, autorLibro, anioPub, generoLibro));
+			ES.msgln("\nLibro introducido exitosamente\n");
 		}
 	}
 
@@ -226,9 +226,9 @@ public class Libro implements Serializable {
 
 		if (listaLibros != null && !listaLibros.isEmpty()) {
 			GestorFicherosBinarios.escribirFicheroLibros(listaLibros);
-			ES.msgln("Datos importados");
+			ES.msgln("\nDatos importados\n");
 		} else {
-			ES.msgErrln("No hay datos en el XML");
+			ES.msgErrln("\nNo hay datos en el XML\n");
 		}
 	}
 
@@ -239,9 +239,9 @@ public class Libro implements Serializable {
 		
 		if(!listaLibros.isEmpty()) {
 			GestorFicherosXML.exportarXMLLibros(listaLibros);
-			ES.msgln("Datos exportados");
+			ES.msgln("\nDatos exportados\n");
 		} else {
-			ES.msgErrln("No se puede exportar un archivo vacío");
+			ES.msgErrln("\nNo se puede exportar un archivo vacío\n");
 		}
 	}
 

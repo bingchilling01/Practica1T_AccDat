@@ -10,40 +10,40 @@ import java.util.ArrayList;
 public final class GestorFicherosTexto extends GestorFicheros {
 
 	// Ruta del archivo de texto de préstamos
-	static File archivoPrestamosTXT = new File(rutaCarpetaRaiz + "prestamos.txt");
-	static File archivoPrestamosAUX = new File(rutaCarpetaRaiz + "prestamos_aux.txt");
-	private static File archivoPrestamosYAML = new File(rutaCarpetaRaiz + "prestamos.yaml");
+		static File archivoPrestamosTXT = new File(rutaCarpetaRaiz + "prestamos.txt");
+		static File archivoPrestamosAUX = new File(rutaCarpetaRaiz + "prestamos_aux.txt");
+		private static File archivoPrestamosYAML = new File(rutaCarpetaRaiz + "prestamos.yaml");
 
-	// Método para escribir los datos de un préstamo en el fichero en formato YAML,
-	// NO usado
-	public static void escribirFicheroPrestamosYAML(Prestamo prestamo) {
-		comprobarDirectorios();
-		try {
-			FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosYAML, true);
-			if(archivoPrestamosYAML.length() == 0) {
-				escritorArchivoPrestamos.write("prestamos:\n" + 
-											   " prestamo:\n");
-			}
-			
-			escritorArchivoPrestamos.write(
-											   "  - id_prestamo: " + prestamo.getIdPrestamo() + "\n" +
+		// Método para escribir los datos de un préstamo en el fichero en formato YAML,
+		// NO usado
+		public static void escribirFicheroPrestamosYAML(Prestamo prestamo) {
+			comprobarDirectorios();
+			try {
+				FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosYAML, true);
+				if(archivoPrestamosYAML.length() == 0) {
+					escritorArchivoPrestamos.write("prestamos:\n" + 
+												   " prestamo:\n");
+				}
+				
+				escritorArchivoPrestamos.write("  - id_prestamo: " + prestamo.getIdPrestamo() + "\n" +
 											   "    id_libro_prestado: " + prestamo.getIdLibro() + "\n" +
 											   "    usuario: " + prestamo.getUsuario() + "\n" +
 											   "    fecha_prestamo: " + prestamo.getFechaPrestamo() + "\n" +
 											   "    fecha_devolucion: " + prestamo.getFechaDevolucion() + "\n");
-			
-			escritorArchivoPrestamos.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+				
+				escritorArchivoPrestamos.close();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
-	}
-
+	
 	// Método para escribir los datos de un préstamo en el fichero en formato TXT
 	public static void escribirFicheroPrestamosTXT(Prestamo prestamo) {
 		comprobarDirectorios();
 				
 		try {
-			
+			// Indicamos que el append es true cuando llamamos al constructor del FileWriter
+			// para indicar que no queremos vaciar el contenido del archivo, que escriba desde el final
 			FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosTXT, true);
 			
 			escritorArchivoPrestamos.write(prestamo.detallesPrestamo());
@@ -54,13 +54,20 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		}
 	}
 	
+	// Método que sirve para escribir el ArrayList de Strings en el fichero de texto
+	// cuando actualizamos o eliminamos algún préstamo registrado
 	public static void escribirModificacionesPrestamos(ArrayList<String> lineasPrestamos) {
 		comprobarDirectorios();
 		try {
+			
+			// Aquí ponemos el append a false para vaciar el contenido y escribir el
+			// ArrayList entero
 			FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosTXT, false);
 			
 			for (String linea : lineasPrestamos) {
-				escritorArchivoPrestamos.write(linea+"\n");
+				// Con el \n separamos por líneas cada elemento del ArrayList
+				// a la hora de escribirlos en el fichero
+				escritorArchivoPrestamos.write(linea + "\n");
 			}
 			escritorArchivoPrestamos.close();
 		} catch (Exception ex) {
@@ -68,9 +75,11 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		}
 	}
 	
+	// Método para leer el fichero y devolver un ArrayList con el contenido del fichero
 	public static ArrayList<String> leerFicheroPrestamos() {
 		comprobarDirectorios();
 		
+		// Comprobamos primero si existe el fichero
 		if(!archivoPrestamosTXT.exists()) {
 			try {
 				archivoPrestamosTXT.createNewFile();
@@ -82,6 +91,8 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		ArrayList<String> lineasPrestamo = new ArrayList<>();
 		
 		try {
+			// Si el fichero tiene contenido, se lee y se añade cada línea
+			// al ArrayList de Strings
 			if(archivoPrestamosTXT.length() > 0) {
 				
 				String linea;

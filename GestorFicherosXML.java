@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public final class GestorFicherosXML extends GestorFicheros {
-
+	
 	// Atributos y métodos para los XML de los LIBROS
 	private static final String xmlLibro = rutaXML + "libros.xml";
 	private static final String etiquetasLibro[] = { "libro", "id", "titulo", "autor", "anio_publicacion", "genero" };
@@ -25,12 +25,14 @@ public final class GestorFicherosXML extends GestorFicheros {
 	public static ArrayList<Libro> importarXMLLibros() {
 		
 		// Primero, comprobamos que los directorios existen para evitar errores
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
 		
 		ArrayList<Libro> listaLibros = new ArrayList<>(); // Declararemos un ArrayList
 		File ficheroXMLLibros = new File(xmlLibro);
-		if (ficheroXMLLibros.exists()) { // Si el fichero existe, procederemos a la importación
-										 // de los datos
+		
+		// Si el fichero existe y NO está vacío, procederemos a la importación
+		// de los datos en un ArrayList de libros
+		if (ficheroXMLLibros.exists() && ficheroXMLLibros.length() > 54) { 
 			try {
 
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -68,7 +70,7 @@ public final class GestorFicherosXML extends GestorFicheros {
 	// Método para exportar el fichero XML de LIBROS
 	public static void exportarXMLLibros(ArrayList<Libro> listaLibros) {
 		
-		GestorFicherosBinarios.comprobarDirectorios(); // Comprobamos que los directorios existen
+		comprobarDirectorios(); // Comprobamos que los directorios existen
 
 		try {
 
@@ -124,10 +126,13 @@ public final class GestorFicherosXML extends GestorFicheros {
 	// Método para importar los AUTORES desde su fichero XML
 	public static ArrayList<Autor> importarXMLAutores() {
 		
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
 		ArrayList<Autor> listaAutores = new ArrayList<>();
 		File ficheroXMLAutores = new File(xmlAutor);
-		if (ficheroXMLAutores.exists()) {
+		
+		// Si el fichero existe y NO está vacío, procederemos a la importación
+		// de los datos añadiéndolos en un ArrayList de autores 
+		if (ficheroXMLAutores.exists() && ficheroXMLAutores.length() > 54) {
 
 			try {
 
@@ -165,7 +170,8 @@ public final class GestorFicherosXML extends GestorFicheros {
 
 	// Método para exportar el fichero XML de AUTORES
 	public static void exportarXMLAutores(ArrayList<Autor> listaAutores) {
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
+		
 		try {
 
 			DocumentBuilderFactory factoryAutores = DocumentBuilderFactory.newInstance();
@@ -211,9 +217,6 @@ public final class GestorFicherosXML extends GestorFicheros {
 		}
 	}
 
-	
-	
-	
 	// Lo de abajo NO SE USA
 	// Atributos y métodos para los XML de los PRÉSTAMOS
 	private static final String xmlPrestamo = rutaXML + "prestamos.xml";
@@ -260,7 +263,7 @@ public final class GestorFicherosXML extends GestorFicheros {
 			return listaPrestamos;
 
 		} else {
-			
+
 			return null;
 		}
 	}
@@ -273,7 +276,7 @@ public final class GestorFicherosXML extends GestorFicheros {
 			DocumentBuilderFactory factoryPrestamos = DocumentBuilderFactory.newInstance();
 			DocumentBuilder constructorXMLPrestamos = factoryPrestamos.newDocumentBuilder();
 			Document xmlPrestamos = constructorXMLPrestamos.newDocument();
-			
+
 			Element prestamos = (Element) xmlPrestamos.createElement("prestamos");
 
 			for (int i = 0; i < listaPrestamos.size(); i++) {
@@ -295,7 +298,7 @@ public final class GestorFicherosXML extends GestorFicheros {
 				Element fechaDevolucion = (Element) xmlPrestamos.createElement(etiquetasPrestamo[5]);
 				fechaDevolucion.appendChild(xmlPrestamos.createTextNode(listaPrestamos.get(i).getFechaDevolucion()));
 				nuevoPrestamo.appendChild(fechaPrestamo);
-				
+
 				prestamos.appendChild(nuevoPrestamo);
 
 			}
