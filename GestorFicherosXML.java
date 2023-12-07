@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public final class GestorFicherosXML extends GestorFicheros {
-
+	
 	// Atributos y métodos para los XML de los LIBROS
 	private static final String xmlLibro = rutaXML + "libros.xml";
 	private static final String etiquetasLibro[] = { "libro", "id", "titulo", "autor", "anio_publicacion", "genero" };
@@ -216,4 +216,105 @@ public final class GestorFicherosXML extends GestorFicheros {
 			ex.printStackTrace();
 		}
 	}
+
+	// Lo de abajo NO SE USA
+	// Atributos y métodos para los XML de los PRÉSTAMOS
+	private static final String xmlPrestamo = rutaXML + "prestamos.xml";
+	private static final String etiquetasPrestamo[] = { "prestamo", "id", "id_libro", "usuario", "fecha_prestamo",
+			"fecha_devolucion" };
+
+	// Método para importar los PRÉSTAMOS desde su fichero XML
+	public static ArrayList<Prestamo> importarXMLPrestamos() {
+		GestorFicherosBinarios.comprobarDirectorios();
+		ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
+
+		File ficheroXMLPrestamos = new File(xmlPrestamo);
+		if (ficheroXMLPrestamos.exists()) {
+
+			try {
+
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document xmlPrestamos = builder.parse(ficheroXMLPrestamos);
+
+				NodeList prestamos = xmlPrestamos.getElementsByTagName(etiquetasPrestamo[0]);
+
+				for (int i = 0; i < prestamos.getLength(); i++) {
+					Node nodoPrestamo = prestamos.item(i);
+					if (nodoPrestamo.getNodeType() == Node.ELEMENT_NODE) {
+						Element prestamo = (Element) nodoPrestamo;
+						int idPrestamo = Integer.parseInt(prestamo.getAttribute(etiquetasPrestamo[1]));
+						int idLibro = Integer
+								.parseInt(prestamo.getElementsByTagName(etiquetasPrestamo[2]).item(0).getTextContent());
+						String usuario = prestamo.getElementsByTagName(etiquetasPrestamo[3]).item(0).getTextContent();
+						String fechaPrestamo = prestamo.getElementsByTagName(etiquetasPrestamo[4]).item(0)
+								.getTextContent();
+						String fechaDevolucion = prestamo.getElementsByTagName(etiquetasPrestamo[5]).item(0)
+								.getTextContent();
+
+						listaPrestamos.add(new Prestamo(idPrestamo, idLibro, usuario, fechaPrestamo, fechaDevolucion));
+					}
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+			return listaPrestamos;
+
+		} else {
+
+			return null;
+		}
+	}
+
+	// Método para importar el fichero XML de los PRÉSTAMOS
+	public static void exportarXMLPrestamos(ArrayList<Prestamo> listaPrestamos) {
+		GestorFicherosBinarios.comprobarDirectorios();
+		try {
+
+			DocumentBuilderFactory factoryPrestamos = DocumentBuilderFactory.newInstance();
+			DocumentBuilder constructorXMLPrestamos = factoryPrestamos.newDocumentBuilder();
+			Document xmlPrestamos = constructorXMLPrestamos.newDocument();
+
+			Element prestamos = (Element) xmlPrestamos.createElement("prestamos");
+
+			for (int i = 0; i < listaPrestamos.size(); i++) {
+				Element nuevoPrestamo = (Element) xmlPrestamos.createElement(etiquetasPrestamo[0]);
+				nuevoPrestamo.setAttribute(etiquetasPrestamo[1], String.valueOf(listaPrestamos.get(i).getIdPrestamo()));
+
+				Element idLibro = (Element) xmlPrestamos.createElement(etiquetasPrestamo[2]);
+				idLibro.appendChild(xmlPrestamos.createTextNode(String.valueOf(listaPrestamos.get(i).getIdLibro())));
+				nuevoPrestamo.appendChild(idLibro);
+
+				Element usuario = (Element) xmlPrestamos.createElement(etiquetasPrestamo[3]);
+				usuario.appendChild(xmlPrestamos.createTextNode(listaPrestamos.get(i).getUsuario()));
+				nuevoPrestamo.appendChild(usuario);
+
+				Element fechaPrestamo = (Element) xmlPrestamos.createElement(etiquetasPrestamo[4]);
+				fechaPrestamo.appendChild(xmlPrestamos.createTextNode(listaPrestamos.get(i).getFechaPrestamo()));
+				nuevoPrestamo.appendChild(fechaPrestamo);
+
+				Element fechaDevolucion = (Element) xmlPrestamos.createElement(etiquetasPrestamo[5]);
+				fechaDevolucion.appendChild(xmlPrestamos.createTextNode(listaPrestamos.get(i).getFechaDevolucion()));
+				nuevoPrestamo.appendChild(fechaPrestamo);
+
+				prestamos.appendChild(nuevoPrestamo);
+
+			}
+			xmlPrestamos.appendChild(prestamos);
+
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			DOMSource source = new DOMSource(xmlPrestamos);
+			StreamResult result = new StreamResult(new File(xmlAutor));
+			transformer.transform(source, result);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 }
