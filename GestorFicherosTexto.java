@@ -18,7 +18,8 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		comprobarDirectorios();
 				
 		try {
-			
+			// Indicamos que el append es true cuando llamamos al constructor del FileWriter
+			// para indicar que no queremos vaciar el contenido del archivo, que escriba desde el final
 			FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosTXT, true);
 			
 			escritorArchivoPrestamos.write(prestamo.detallesPrestamo());
@@ -29,13 +30,20 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		}
 	}
 	
+	// Método que sirve para escribir el ArrayList de Strings en el fichero de texto
+	// cuando actualizamos o eliminamos algún préstamo registrado
 	public static void escribirModificacionesPrestamos(ArrayList<String> lineasPrestamos) {
 		comprobarDirectorios();
 		try {
+			
+			// Aquí ponemos el append a false para vaciar el contenido y escribir el
+			// ArrayList entero
 			FileWriter escritorArchivoPrestamos = new FileWriter(archivoPrestamosTXT, false);
 			
 			for (String linea : lineasPrestamos) {
-				escritorArchivoPrestamos.write(linea+"\n");
+				// Con el \n separamos por líneas cada elemento del ArrayList
+				// a la hora de escribirlos en el fichero
+				escritorArchivoPrestamos.write(linea + "\n");
 			}
 			escritorArchivoPrestamos.close();
 		} catch (Exception ex) {
@@ -43,9 +51,11 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		}
 	}
 	
+	// Método para leer el fichero y devolver un ArrayList con el contenido del fichero
 	public static ArrayList<String> leerFicheroPrestamos() {
 		comprobarDirectorios();
 		
+		// Comprobamos primero si existe el fichero
 		if(!archivoPrestamosTXT.exists()) {
 			try {
 				archivoPrestamosTXT.createNewFile();
@@ -57,6 +67,8 @@ public final class GestorFicherosTexto extends GestorFicheros {
 		ArrayList<String> lineasPrestamo = new ArrayList<>();
 		
 		try {
+			// Si el fichero tiene contenido, se lee y se añade cada línea
+			// al ArrayList de Strings
 			if(archivoPrestamosTXT.length() > 0) {
 				
 				String linea;

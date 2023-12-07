@@ -59,6 +59,9 @@ public class Principal {
 		}
 		ES.msgln("3. Modificar un " + tipo);
 		ES.msgln("4. Eliminar un " + tipo);
+		if(tipo.equals("préstamo")) {
+			ES.msgln("5. Añadir/modificar fecha de devolución de un préstamo");
+		}
 		ES.msgln("0. Volver al menú principal");
 	}
 
@@ -140,7 +143,7 @@ public class Principal {
 				break;
 				
 			case 2: 
-				Prestamo.leerPrestamos();
+				Prestamo.imprimirPrestamos();
 				break;
 				
 			case 3:
@@ -149,6 +152,10 @@ public class Principal {
 				
 			case 4:
 				Prestamo.eliminarPrestamo();
+				break;
+				
+			case 5:
+				Prestamo.modificarFechaDev();
 				break;
 				
 			case opcionSalida:

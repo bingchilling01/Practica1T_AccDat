@@ -25,13 +25,13 @@ public final class GestorFicherosXML extends GestorFicheros {
 	public static ArrayList<Libro> importarXMLLibros() {
 		
 		// Primero, comprobamos que los directorios existen para evitar errores
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
 		
 		ArrayList<Libro> listaLibros = new ArrayList<>(); // Declararemos un ArrayList
 		File ficheroXMLLibros = new File(xmlLibro);
 		
 		// Si el fichero existe y NO está vacío, procederemos a la importación
-		// de los datos
+		// de los datos en un ArrayList de libros
 		if (ficheroXMLLibros.exists() && ficheroXMLLibros.length() > 54) { 
 			try {
 
@@ -70,7 +70,7 @@ public final class GestorFicherosXML extends GestorFicheros {
 	// Método para exportar el fichero XML de LIBROS
 	public static void exportarXMLLibros(ArrayList<Libro> listaLibros) {
 		
-		GestorFicherosBinarios.comprobarDirectorios(); // Comprobamos que los directorios existen
+		comprobarDirectorios(); // Comprobamos que los directorios existen
 
 		try {
 
@@ -126,12 +126,12 @@ public final class GestorFicherosXML extends GestorFicheros {
 	// Método para importar los AUTORES desde su fichero XML
 	public static ArrayList<Autor> importarXMLAutores() {
 		
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
 		ArrayList<Autor> listaAutores = new ArrayList<>();
 		File ficheroXMLAutores = new File(xmlAutor);
 		
 		// Si el fichero existe y NO está vacío, procederemos a la importación
-		// de los datos
+		// de los datos añadiéndolos en un ArrayList de autores 
 		if (ficheroXMLAutores.exists() && ficheroXMLAutores.length() > 54) {
 
 			try {
@@ -170,7 +170,8 @@ public final class GestorFicherosXML extends GestorFicheros {
 
 	// Método para exportar el fichero XML de AUTORES
 	public static void exportarXMLAutores(ArrayList<Autor> listaAutores) {
-		GestorFicherosBinarios.comprobarDirectorios();
+		comprobarDirectorios();
+		
 		try {
 
 			DocumentBuilderFactory factoryAutores = DocumentBuilderFactory.newInstance();

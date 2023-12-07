@@ -123,6 +123,7 @@ public class Libro implements Serializable {
 			// Una vez introducido los detalles del nuevo libro, se escribirá
 			// el fichero binario desde el EOF
 			GestorFicherosBinarios.escribirLibroNuevo(new Libro(idNuevo, tituloNuevo, autorLibro, anioPub, generoLibro));
+			ES.msgln("\nLibro introducido exitosamente\n");
 		}
 	}
 

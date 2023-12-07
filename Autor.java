@@ -109,6 +109,7 @@ public class Autor implements Serializable {
 			// Una vez introducido los detalles del nuevo autor, se escribirá
 			// el fichero binario desde el EOF
 			GestorFicherosBinarios.escribirAutorNuevo(new Autor(idNuevo, nombreAutor, nacionalidadAutor, anioNac));
+			ES.msgln("\nAutor introducido exitosamente\n");
 		}
 	}
 	
